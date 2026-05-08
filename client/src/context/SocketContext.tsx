@@ -1,7 +1,11 @@
+'use client';
+import React, { createContext, useContext, useEffect, useRef, useState, useCallback } from 'react';
+import { io, Socket } from 'socket.io-client';
+
 interface SocketContextType {
-  socket: any;
+  socket: Socket | null;
   connected: boolean;
-  emit: (event: string, data: any) => void;
+  emit: (event: string, data?: any) => void;
   on: (event: string, handler: any) => () => void;
   off: (event: string, handler: any) => void;
 }
@@ -9,7 +13,7 @@ interface SocketContextType {
 const SocketContext = createContext<SocketContextType | null>(null);
 
 export function SocketProvider({ children }: { children: React.ReactNode }) {
-  const socketRef = useRef(null);
+  const socketRef = useRef<Socket | null>(null);
   const [connected, setConnected] = useState(false);
 
   useEffect(() => {
@@ -26,16 +30,16 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
     return () => { socket.disconnect(); };
   }, []);
 
-  const emit = useCallback((event, data) => {
+  const emit = useCallback((event: string, data?: any) => {
     socketRef.current?.emit(event, data);
   }, []);
 
-  const on = useCallback((event, handler) => {
+  const on = useCallback((event: string, handler: any) => {
     socketRef.current?.on(event, handler);
     return () => socketRef.current?.off(event, handler);
   }, []);
 
-  const off = useCallback((event, handler) => {
+  const off = useCallback((event: string, handler: any) => {
     socketRef.current?.off(event, handler);
   }, []);
 
@@ -46,7 +50,7 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export const useSocket = () => {
+export const useSocket = (): SocketContextType => {
   const context = useContext(SocketContext);
   if (!context) throw new Error('useSocket must be used within SocketProvider');
   return context;

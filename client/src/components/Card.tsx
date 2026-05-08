@@ -2,7 +2,7 @@
 import { memo } from 'react';
 
 // ─── Suit symbols ─────────────────────────────────────────────
-const SUIT_SYMBOLS = {
+const SUIT_SYMBOLS: Record<string, string> = {
   spades:   '♠',
   hearts:   '♥',
   diamonds: '♦',
@@ -10,7 +10,7 @@ const SUIT_SYMBOLS = {
   joker:    '🃏',
 };
 
-const SUIT_COLORS = {
+const SUIT_COLORS: Record<string, string> = {
   spades:   '#fff',
   hearts:   '#ff4d6d',
   diamonds: '#ff4d6d',
@@ -18,7 +18,7 @@ const SUIT_COLORS = {
   joker:    '#ffd700',
 };
 
-const RANK_DISPLAY = {
+const RANK_DISPLAY: Record<string, string> = {
   small_joker: 'J',
   big_joker: 'JO',
 };

@@ -8,15 +8,11 @@ import GamePage from '@/components/GamePage';
 import VotePage from '@/components/VotePage';
 
 export default function AppRouter() {
-  const socketContext = useSocket();
-  const gameContext = useGame();
-  
-  const connected = socketContext?.connected;
-  const { state } = gameContext;
+  const { connected, on } = useSocket();
+  const { state, dispatch } = useGame();
   const { currentPage } = state;
 
   // Global socket event bridge from SocketContext to GameContext
-  const { on } = useSocket();
   useEffect(() => {
     const offGameContext = on('game:started', (ctx: any) => {
       dispatch({ type: 'SET_GAME_CONTEXT', context: ctx });
