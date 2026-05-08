@@ -8,8 +8,11 @@ import GamePage from '@/components/GamePage';
 import VotePage from '@/components/VotePage';
 
 export default function AppRouter() {
-  const { connected } = useSocket();
-  const { state, setPage, setRoom, setHand, addTrashMessage, dispatch } = useGame();
+  const socketContext = useSocket();
+  const gameContext = useGame();
+  
+  const connected = socketContext?.connected;
+  const { state } = gameContext;
   const { currentPage } = state;
 
   // Global socket event bridge from SocketContext to GameContext
